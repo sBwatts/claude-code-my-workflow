@@ -1,103 +1,90 @@
 ---
 name: research-ideation
-description: Generate structured research questions, testable hypotheses, and empirical strategies from a topic or dataset
+description: Generate and refine research questions using economic thinking frameworks. Entry point of the research lifecycle.
 disable-model-invocation: true
-argument-hint: "[topic, phenomenon, or dataset description]"
-allowed-tools: ["Read", "Grep", "Glob", "Write"]
+argument-hint: "[topic, phenomenon, or data source]"
 ---
 
 # Research Ideation
 
-Generate structured research questions, testable hypotheses, and empirical strategies from a topic, phenomenon, or dataset.
-
-**Input:** `$ARGUMENTS` — a topic (e.g., "minimum wage effects on employment"), a phenomenon (e.g., "why do firms cluster geographically?"), or a dataset description (e.g., "panel of US counties with pollution and health outcomes, 2000-2020").
-
----
+Generate and refine research questions by applying economic thinking frameworks. This is the entry point of the research lifecycle — from here, proceed to `/lit-review-assistant` and then `/causal-hypothesis-architect`.
 
 ## Steps
 
-1. **Understand the input.** Read `$ARGUMENTS` and any referenced files. Check `master_supporting_docs/` for related papers. Check `.claude/rules/` for domain conventions.
+1. **Understand the Starting Point**
+   - Does the user have a phenomenon, puzzle, or data source in mind?
+   - What field/subfield of economics?
+   - Methodological preference? (empirical, theoretical, structural)
+   - Constraints? (data access, timeline, computational resources)
 
-2. **Generate 3-5 research questions** ordered from descriptive to causal:
-   - **Descriptive:** What are the patterns? (e.g., "How has X evolved over time?")
-   - **Correlational:** What factors are associated? (e.g., "Is X correlated with Y after controlling for Z?")
-   - **Causal:** What is the effect? (e.g., "What is the causal effect of X on Y?")
-   - **Mechanism:** Why does the effect exist? (e.g., "Through what channel does X affect Y?")
-   - **Policy:** What are the implications? (e.g., "Would policy X improve outcome Y?")
+2. **Apply Ideation Frameworks**
 
-3. **For each research question, develop:**
-   - **Hypothesis:** A testable prediction with expected sign/magnitude
-   - **Identification strategy:** How to establish causality (DiD, IV, RDD, synthetic control, etc.)
-   - **Data requirements:** What data would be needed? Is it available?
-   - **Key assumptions:** What must hold for the strategy to be valid?
-   - **Potential pitfalls:** Common threats to identification
-   - **Related literature:** 2-3 papers using similar approaches
+   **The Puzzle Approach**
+   - What's surprising about current patterns?
+   - What contradicts conventional economic wisdom?
+   - Where do standard models fail?
 
-4. **Rank the questions** by feasibility and contribution.
+   **The Policy Approach**
+   - What policies lack rigorous evaluation?
+   - What natural experiments remain unexploited?
+   - What interventions might solve important problems?
 
-5. **Save the output** to `quality_reports/research_ideation_[sanitized_topic].md`
+   **The Data Approach**
+   - What new data sources have become available?
+   - What can existing data tell us that hasn't been explored?
+   - What linkages between datasets are possible?
 
----
+   **The Extension Approach**
+   - How can seminal papers be extended to new settings?
+   - What mechanisms remain unexplored?
+   - Can methods from one field apply to another?
 
-## Output Format
+3. **Evaluate Each Idea**
 
-```markdown
-# Research Ideation: [Topic]
+   For each candidate research question, assess:
 
-**Date:** [YYYY-MM-DD]
-**Input:** [Original input]
+   | Criterion | Question to Ask |
+   |-----------|----------------|
+   | Feasibility | Can this be done with available data and methods? |
+   | Contribution | What's genuinely new here? |
+   | Interest | Who cares about this question? (academics, policymakers, public) |
+   | Identification | Can effects be credibly estimated? What's the source of variation? |
 
-## Overview
+   Produce an evaluation matrix ranking ideas on these dimensions.
 
-[1-2 paragraphs situating the topic and why it matters]
+4. **Save Output**
 
-## Research Questions
+   Save the ideation output to `quality_reports/plans/YYYY-MM-DD_ideation_[topic].md` with:
+   - The top 3-5 research ideas
+   - Evaluation matrix
+   - Recommended next steps for each
 
-### RQ1: [Question] (Feasibility: High/Medium/Low)
+5. **Connect to Lifecycle**
 
-**Type:** Descriptive / Correlational / Causal / Mechanism / Policy
+   For the most promising idea, suggest:
+   - **Next step:** Run `/lit-review-assistant` to survey existing work on the topic
+   - **Then:** Run `/causal-hypothesis-architect` to formalize the causal claim
+   - **Then:** Run `/scientific-narrative-builder` to draft the introduction
 
-**Hypothesis:** [Testable prediction]
+## Frameworks for Generating Questions
 
-**Identification Strategy:**
-- **Method:** [e.g., Difference-in-Differences]
-- **Treatment:** [What varies and when]
-- **Control group:** [Comparison units]
-- **Key assumption:** [e.g., Parallel trends]
+### The "5 Whys" for Economics
+Start with an observation and drill down:
+1. GDP growth is slowing — Why?
+2. Productivity is stagnant — Why?
+3. Investment is low — Why?
+4. Uncertainty is high — Why?
+5. Policy is unpredictable — **Testable: Does policy uncertainty cause low investment?**
 
-**Data Requirements:**
-- [Dataset 1 — what it provides]
-- [Dataset 2 — what it provides]
+### The Cross-Field Pollinator
+Take a method from one field and apply to another:
+- IO techniques applied to labor markets
+- Finance models applied to education returns
+- Macro shocks traced to micro outcomes
 
-**Potential Pitfalls:**
-1. [Threat 1 and possible mitigation]
-2. [Threat 2 and possible mitigation]
+## Common Pitfalls
 
-**Related Work:** [Author (Year)], [Author (Year)]
-
----
-
-[Repeat for RQ2-RQ5]
-
-## Ranking
-
-| RQ | Feasibility | Contribution | Priority |
-|----|-------------|-------------|----------|
-| 1  | High        | Medium      | ...      |
-| 2  | Medium      | High        | ...      |
-
-## Suggested Next Steps
-
-1. [Most promising direction and immediate action]
-2. [Data to obtain]
-3. [Literature to review deeper]
-```
-
----
-
-## Principles
-
-- **Be creative but grounded.** Push beyond obvious questions, but every suggestion must be empirically feasible.
-- **Think like a referee.** For each causal question, immediately identify the identification challenge.
-- **Consider data availability.** A brilliant question with no available data is not actionable.
-- **Suggest specific datasets** where possible (FRED, Census, PSID, administrative data, etc.).
+- Questions that are too broad ("What causes inequality?")
+- Questions without clean identification ("Does education cause income?")
+- Questions without feasible data
+- Questions already well-answered in the literature
